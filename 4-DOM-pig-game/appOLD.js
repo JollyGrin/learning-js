@@ -10,19 +10,18 @@ GAME RULES:
 */
 
 
-let scores, roundScore, activePlayer, gamePlaying;
+var scores, roundScore, activePlayer, gamePlaying;
 
 // Initialize the game
 init();
 
-let sixTwice = 0; 
 
 // Rolls dice on click
 document.querySelector('.btn-roll').addEventListener('click', function() {
 	if(gamePlaying) {
 
 		// 1. Random Number
-		let dice = Math.floor(Math.random() * 6) + 1;
+		var dice = Math.floor(Math.random() * 6) + 1;
 
 		// 2. Display the result
 		var diceDOM = document.querySelector('.dice');
@@ -32,18 +31,9 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
 
 		// 3. Update the round score if not 1
 		if (dice !== 1) {
-			if (dice === 6) {
-				sixTwice += 1;
-				if (sixTwice === 2) {
-					// reset score
-				}
-			} else {
-				// add score
-				roundScore += dice;
-				document.querySelector('#current-' + activePlayer).textContent = roundScore;
-			}
-		}
-			
+			// add score
+			roundScore += dice;
+			document.querySelector('#current-' + activePlayer).textContent = roundScore;
 
 		} else {
 			// next player
