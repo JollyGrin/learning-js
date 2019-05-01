@@ -10,7 +10,7 @@ GAME RULES:
 */
 
 
-var scores, roundScore, activePlayer, gamePlaying;
+var scores, roundScore, activePlayer, gamePlaying, lastDice;
 
 // Initialize the game
 init();
@@ -30,16 +30,29 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
 		diceDOM.src = 'dice-' + dice + '.png';
 
 		// 3. Update the round score if not 1
-		if (dice !== 1) {
+		
+
+		if (lastDice === 6 && dice === 6) {
+
+			// player loses their score
+			scores[activePlayer] = 0;
+			document.querySelector('#score-' + activePlayer).textContent = 0;
+			nextPlayer();
+
+		} else if (dice !== 1) {
+
 			// add score
 			roundScore += dice;
 			document.querySelector('#current-' + activePlayer).textContent = roundScore;
 
 		} else {
+
 			// next player
 			nextPlayer();
 		}
 
+		// store the last dice roll
+		lastDice = dice;
 	}
 
 
@@ -54,7 +67,7 @@ document.querySelector('.btn-hold').addEventListener('click', function() {
 		document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
 
 		// Check if won the game
-		if (scores[activePlayer] >= 10) {
+		if (scores[activePlayer] >= 100) {
 			document.querySelector('#name-' + activePlayer).textContent = 'Winner';
 			document.querySelector('.dice').style.display = 'none';
 			document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
@@ -75,6 +88,7 @@ document.querySelector('.btn-hold').addEventListener('click', function() {
 function nextPlayer() {
 	activePlayer === 0 ? activePlayer = 1 : activePlayer = 0;
 		roundScore = 0;
+		sixTwice = 0;
 
 		// zero the round score
 		document.getElementById('current-0').textContent = '0';
@@ -89,6 +103,8 @@ function nextPlayer() {
 // New game button
 document.querySelector('.btn-new').addEventListener('click', init);
 
+
+// Initialize the game
 function init () {
 	scores = [0,0];
 	roundScore = 0;
