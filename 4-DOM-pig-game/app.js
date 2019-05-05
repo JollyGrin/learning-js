@@ -20,34 +20,41 @@ init();
 document.querySelector('.btn-roll').addEventListener('click', function() {
 	if(gamePlaying) {
 
+		var dice = [];
+
 		// 1. Random Number
-		var dice = Math.floor(Math.random() * 6) + 1;
+		dice[0] = Math.floor(Math.random() * 6) + 1;
+		dice[1] = Math.floor(Math.random() * 6) + 1;
 
 		// 2. Display the result
 		var diceDOM = document.querySelector('.dice');
+		var diceDOM2 = document.querySelector('.dice2');
 
 		diceDOM.style.display = 'block';
-		diceDOM.src = 'dice-' + dice + '.png';
+		diceDOM.src = 'dice-' + dice[0] + '.png';
 
-		// 3. Update the round score if not 1
-		
+		diceDOM2.style.display = 'block';
+		diceDOM2.src = 'dice-' + dice[1] + '.png';
 
+		// 3. if last dice was 6 and you roll a 6
 		if (lastDice === 6 && dice === 6) {
 
 			// player loses their score
-			scores[activePlayer] = 0;
-			document.querySelector('#score-' + activePlayer).textContent = 0;
-			nextPlayer();
+			// scores[activePlayer] = 0;
+			// document.querySelector('#score-' + activePlayer).textContent = 0;
+			// nextPlayer();
 
-		} else if (dice !== 1) {
+		// 4. Update the round score if not 1
+		} else if (dice[0] !== 1 && dice[1] !== 1) {
 
 			// add score
-			roundScore += dice;
+			roundScore += (dice[0] + dice[1]);
 			document.querySelector('#current-' + activePlayer).textContent = roundScore;
 
 		} else {
 
 			// next player
+			console.log(dice[0],dice[1]);
 			nextPlayer();
 		}
 
@@ -65,9 +72,22 @@ document.querySelector('.btn-hold').addEventListener('click', function() {
 
 		// Update the UI
 		document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+		
+
+		// Set the input to value of .final-score box
+		var input = document.querySelector('.final-score').value;
+		var winningScore;
+
+		// Form validation
+		if (input) {
+			winningScore = input;
+		} else {
+			winningScore = 100;
+		}
+
 
 		// Check if won the game
-		if (scores[activePlayer] >= 100) {
+		if (scores[activePlayer] >= winningScore) {
 			document.querySelector('#name-' + activePlayer).textContent = 'Winner';
 			document.querySelector('.dice').style.display = 'none';
 			document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
@@ -98,6 +118,7 @@ function nextPlayer() {
 		document.querySelector('.player-1-panel').classList.toggle('active');
 
 		document.querySelector('.dice').style.display = 'none';
+		document.querySelector('.dice2').style.display = 'none';
 };
 
 // New game button
