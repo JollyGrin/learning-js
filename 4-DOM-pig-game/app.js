@@ -134,6 +134,7 @@ function init () {
 
 	// Hide the Dice
 	document.querySelector('.dice').style.display = 'none';
+	document.querySelector('.dice2').style.display = 'none';
 
 	// zero out numbers
 	document.getElementById('score-0').textContent = '0';
