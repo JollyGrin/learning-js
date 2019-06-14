@@ -599,6 +599,10 @@ function reportStreets (s) {
 
 	console.log('----- Streets Report -----');
 
+
+	const test1 = s.map(el => el.buildYear);
+	console.log(test1);
+
 	// total & avg length of all streets
 	console.log('## 4: Total & AVG length of all streets ##');
 	let sum = 0;
