@@ -1,6 +1,6 @@
 import Search from './models/Search';
 import * as searchView from './views/searchView';
-import { elements } from './views/base';
+import { elements, renderLoader, clearLoader } from './views/base';
 
 /** Global state of the app
  * Search object
@@ -13,18 +13,22 @@ const state = {};
 const controlSearch = async () => {
     // 1) get query from the view
     const query = searchView.getInput();
-    console.log(query);
+    console.log(`Searching for ${query}...`);
 
     if(query) {
         // 2) new search object and add to state
         state.search = new Search(query);
 
-        // 3) Prepare UI for results
+        // 3) Prepare UI for results by clearing search input and results from previous search
+        searchView.clearInput();
+        searchView.clearResults();
+        renderLoader(elements.searchRes);
 
         // 4) Search for new recipes
         await state.search.getResults();
 
         // 5) render results on UI
+        clearLoader();
         searchView.renderResults(state.search.result);
     }
 };
